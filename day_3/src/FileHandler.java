@@ -2,15 +2,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class FileHandler {
 
-    public HashMap<Integer, Character> getSet(Path dataFile) throws IOException{
-        HashMap<Integer, Character> set = new LinkedHashMap<Integer, Character>();
+    public ArrayList<Instruction> getSet(Path dataFile) throws IOException{
+        ArrayList<Instruction> set = new ArrayList<>();
         File file = new File(dataFile.toString());
         FileInputStream fileInputStream = null;
 
@@ -27,18 +24,19 @@ public class FileHandler {
             Scanner fileScanner = new Scanner(fileInputStream);
 
             String[] tempString;
-            char instruction;
-            int tempInt;
 
             while(fileScanner.hasNext()) {
                 tempString = fileScanner.nextLine().split(",");
 
-                for (int i = 0; i <= tempString.length; i++) {
-                    instruction = tempString[i].charAt(0);
+                for (int i = 0; i < tempString.length; i++) {
+                    Instruction tempObj = new Instruction();
+                    tempObj.setInst(tempString[i].charAt(0));
                     String temp = tempString[i].substring(1, tempString[i].length());
-                    tempInt = Integer.parseInt(temp);
+                    tempObj.setMove(Integer.parseInt(temp));
 
-                    set.put(tempInt, instruction);
+                    //System.out.println(tempObj.getInst() + "" + tempObj.getMove());
+
+                    set.add(tempObj);
                 }
             }
         } catch(Exception e){
@@ -47,6 +45,10 @@ public class FileHandler {
             System.out.println("CLOSING File: " + dataFile);
             fileInputStream.close();
         }
+
+        /*set.forEach((temp) -> {
+            System.out.println(temp.getInst() + "" + temp.getMove());
+        });*/
 
         return set;
     }

@@ -4,42 +4,40 @@ public class PointCreator {
     private int x = 0;
     private int y = 0;
 
-    public /*HashSet<Point>*/void calculatePoints(LinkedHashMap<Integer, Character> inst) {
-        LinkedList<Point> points = new LinkedList<>();
+    public ArrayList<Point> calculatePoints(ArrayList<Instruction> inst) {
+        ArrayList<Point> points = new ArrayList<>();
 
         try {
-            for (Map.Entry<Integer, Character> entry : inst.entrySet()) {
-                Point tempObj = new Point();
-                if (entry.getValue() == 'D') {
-                    x -= entry.getKey();
-                    tempObj.x = x;
-                    tempObj.y = y;
-                    points.add(tempObj);
-                } else if (entry.getValue() == 'U') {
-                    x += entry.getKey();
-                    tempObj.x = x;
-                    tempObj.y = y;
-                    points.add(tempObj);
-                } else if (entry.getValue().equals('R')) {
-                    y = y +  entry.getKey();
-                    tempObj.x = x;
-                    tempObj.y = y;
-                    points.add(tempObj);
-                } else if (entry.getValue().equals('L')) {
-                    y -= entry.getKey();
-                    tempObj.x = x;
-                    tempObj.y = y;
-                    points.add(tempObj);
-                } else {
-                    throw new Exception("INVALID DIRECTION!");
+            inst.forEach((i) -> {
+                Point p = new Point();
+                if(i.getInst() == 'U'){
+                    x += i.getMove();
+                    p.setX(x);
+                    p.setY(y);
+                    points.add(p);
+                }else if(i.getInst() == 'D'){
+                    x -= i.getMove();
+                    p.setX(x);
+                    p.setY(y);
+                    points.add(p);
+                }else if(i.getInst() == 'R'){
+                    y += i.getMove();
+                    p.setX(x);
+                    p.setY(y);
+                    points.add(p);
+                }else if(i.getInst() == 'L'){
+                    y -= i.getMove();
+                    p.setX(x);
+                    p.setY(y);
+                    points.add(p);
                 }
-            }
+            });
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-        for(Point p: points){
-            System.out.println("x: " + p.x + " y: " + p.y);
-        }
-        //return points;
+        /*points.forEach((temp) -> {
+            System.out.println(temp.getX() + " " + temp.getY());
+        });*/
+        return points;
     }
 }
