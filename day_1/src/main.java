@@ -6,32 +6,16 @@ import java.util.Scanner;
 
 public class main {
 
-    public static double fuelCalc(double weight){
-        int fuelNeeded = 5;
-        int fuel = (int)weight;
-        double total = weight;
-
-        while(fuelNeeded > 0){
-            fuelNeeded = (fuel / 3) - 2;
-            if(fuelNeeded <= 0){
-                break;
-            }
-            fuel = fuelNeeded;
-            total += (double)fuel;
-            System.out.println(fuelNeeded);
-        }
-
-        return total;
-    }
-
     public static double calculateFuel(double weight){
         double calculatedFuel;
-
         calculatedFuel = weight / 3.0;
         calculatedFuel = Math.floor(calculatedFuel);
         calculatedFuel -= 2;
+        if (calculatedFuel <= 0) {
+            return 0;
+        }
 
-        return calculatedFuel;
+        return calculatedFuel + calculateFuel(calculatedFuel);
     }
 
     public static void main(String[] args) {
@@ -51,7 +35,7 @@ public class main {
                 if(weights.containsKey(currWeight)){
                     totalFuel += weights.get(currWeight);
                 }else{
-                    weights.put(currWeight, fuelCalc(calculateFuel(currWeight)));
+                    weights.put(currWeight, calculateFuel(currWeight)); //redo
                     totalFuel += weights.get(currWeight);
                 }
             }
