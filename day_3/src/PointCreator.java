@@ -1,42 +1,45 @@
 import java.util.*;
+import java.awt.Point;
 
 public class PointCreator {
-    private int x = 0;
-    private int y = 0;
+    private Point p = new Point(0, 0);
 
-    public ArrayList<Point> calculatePoints(ArrayList<Instruction> inst) {
-        ArrayList<Point> points = new ArrayList<>();
+    public Set calculatePoints(ArrayList<Instruction> inst) {
+        Set<Point> points = new LinkedHashSet<>();
 
         try {
             inst.forEach((i) -> {
-                Point p = new Point();
                 if(i.getInst() == 'U'){
-                    x += i.getMove();
-                    p.setX(x);
-                    p.setY(y);
-                    points.add(p);
+                    for(int j = 0; j < i.getMove(); j++){
+                        Point p2 = new Point((int)p.getX() + 1, (int)p.getY());
+                        p.setLocation(p2.getX(), p2.getY());
+                        points.add(p2);
+                    }
                 }else if(i.getInst() == 'D'){
-                    x -= i.getMove();
-                    p.setX(x);
-                    p.setY(y);
-                    points.add(p);
+                    for(int j = 0; j < i.getMove(); j++){
+                        Point p2 = new Point((int)p.getX() - 1, (int)p.getY());
+                        p.setLocation(p2.getX(), p2.getY());
+                        points.add(p2);
+                    }
                 }else if(i.getInst() == 'R'){
-                    y += i.getMove();
-                    p.setX(x);
-                    p.setY(y);
-                    points.add(p);
+                    for(int j = 0; j < i.getMove(); j++){
+                        Point p2 = new Point((int)p.getX(), (int)p.getY() + 1);
+                        p.setLocation(p2.getX(), p2.getY());
+                        points.add(p2);
+                    }
                 }else if(i.getInst() == 'L'){
-                    y -= i.getMove();
-                    p.setX(x);
-                    p.setY(y);
-                    points.add(p);
+                    for(int j = 0; j < i.getMove(); j++){
+                        Point p2 = new Point((int)p.getX(), (int)p.getY() -1);
+                        p.setLocation(p2.getX(), p2.getY());
+                        points.add(p2);
+                    }
                 }
             });
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
         /*points.forEach((temp) -> {
-            System.out.println(temp.getX() + " " + temp.getY());
+            System.out.println((int)temp.getX() + " " + (int)temp.getY());
         });*/
         return points;
     }
